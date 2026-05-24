@@ -4,8 +4,8 @@ import {
   saveReports,
   getContests,
   formatDateTimeVN
-} from "../_lib/store";
-import type { Report } from "../_lib/types";
+} from "../_lib/store.js";
+import type { Report } from "../_lib/types.js";
 
 export const config = {
   api: { bodyParser: { sizeLimit: "4mb" } }

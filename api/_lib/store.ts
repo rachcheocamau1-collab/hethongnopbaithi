@@ -1,5 +1,5 @@
 import { neon } from "@neondatabase/serverless";
-import type { Contest, Report, SystemSettings } from "./types";
+import type { Contest, Report, SystemSettings } from "./types.js";
 
 const sql = neon(process.env.DATABASE_URL!);
 

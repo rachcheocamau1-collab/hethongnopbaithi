@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getSettings, saveSettings } from "../_lib/store";
+import { getSettings, saveSettings } from "../_lib/store.js";
 
 export default async function handler(
   req: VercelRequest,

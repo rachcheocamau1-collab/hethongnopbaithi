@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getContests, saveContests } from "../_lib/store";
-import type { Contest } from "../_lib/types";
+import { getContests, saveContests } from "../_lib/store.js";
+import type { Contest } from "../_lib/types.js";
 
 export default async function handler(
   req: VercelRequest,

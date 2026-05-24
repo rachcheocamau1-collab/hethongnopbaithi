@@ -4,7 +4,7 @@ import {
   saveContests,
   getReports,
   saveReports
-} from "../_lib/store";
+} from "../_lib/store.js";
 
 export default async function handler(
   req: VercelRequest,
