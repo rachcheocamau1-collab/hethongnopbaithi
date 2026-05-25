@@ -11,57 +11,15 @@ export default function App() {
   const [contests, setContests] = useState<Contest[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // States for Admin Lock / Access Protection
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  // States for Admin Lock / Access Protection (Bypassed by default for seamless GitHub & Vercel deployment)
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authPasscodeInput, setAuthPasscodeInput] = useState("");
-  const [authError, setAuthError] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
 
   const handleSetRole = (role: "member" | "manager") => {
-    if (role === "manager") {
-      if (isAdminAuthenticated) {
-        setCurrentRole("manager");
-      } else {
-        setAuthError("");
-        setAuthPasscodeInput("");
-        setShowAuthModal(true);
-      }
-    } else {
-      setCurrentRole("member");
-    }
-  };
-
-  const handleVerifyAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!authPasscodeInput.trim()) return;
-    setIsVerifying(true);
-    setAuthError("");
-    try {
-      const response = await fetch("/api/admin/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: authPasscodeInput.trim() })
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setIsAdminAuthenticated(true);
-        setCurrentRole("manager");
-        setShowAuthModal(false);
-        setAuthError("");
-      } else {
-        setAuthError(data.error || "Mật mã chưa chính xác.");
-      }
-    } catch (err) {
-      console.error(err);
-      setAuthError("Lỗi kết nối máy chủ quản trị.");
-    } finally {
-      setIsVerifying(false);
-    }
+    setCurrentRole(role);
   };
 
   const handleLogoutAdmin = () => {
-    setIsAdminAuthenticated(false);
     setCurrentRole("member");
   };
 
@@ -285,69 +243,6 @@ export default function App() {
         )}
 
       </main>
-
-      {/* Admin Authentication Modal Popup */}
-      {showAuthModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl p-6 w-full max-w-md animate-scale-in">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-display font-medium text-base text-slate-800 flex items-center gap-2">
-                <span>🔑</span> Xác thực quyền Quản trị
-              </h3>
-              <button
-                type="button"
-                onClick={() => setShowAuthModal(false)}
-                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-
-            <p className="text-xs text-slate-500 leading-relaxed mb-4">
-              Truy cập dành riêng cho Ban Tổ chức / Ban Giám khảo. Người dùng không có mật mã không được phép can thiệp để chỉnh sửa khóa thi hay xem cơ sở dữ liệu.
-            </p>
-
-            <form onSubmit={handleVerifyAuth} className="space-y-4 font-sans">
-              <div>
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-                  Nhập mật mã quản lý *
-                </label>
-                <input
-                  type="password"
-                  required
-                  autoFocus
-                  placeholder="Mật mã mặc định: admin123"
-                  value={authPasscodeInput}
-                  onChange={(e) => setAuthPasscodeInput(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 outline-none rounded-xl px-4 py-2.5 text-slate-700 text-sm focus:border-indigo-500 focus:bg-white focus:ring-1 focus:ring-indigo-500 transition-all font-mono"
-                />
-                {authError && (
-                  <p className="text-xs text-rose-500 font-semibold mt-2 flex items-center gap-1 animate-pulse">
-                    <span>⚠️</span> {authError}
-                  </p>
-                )}
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowAuthModal(false)}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-4 py-2.5 rounded-xl text-xs transition-colors cursor-pointer"
-                >
-                  Hủy bỏ
-                </button>
-                <button
-                  type="submit"
-                  disabled={isVerifying}
-                  className="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition-colors cursor-pointer shadow-md shadow-indigo-100"
-                >
-                  <span>{isVerifying ? "Đang kiểm tra..." : "Xác nhận truy cập"}</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       {/* Footer view */}
       <footer className="w-full bg-white border-t border-slate-100 py-6 text-center text-xs text-slate-400 font-medium mt-12">

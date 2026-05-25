@@ -1,5 +1,5 @@
 {
-  "name": "Hệ thống Nộp Bài Dự Thi",
+  "name": "Hệ thống Nộp Bài",
   "description": "Hệ thống giúp thí sinh nộp bài dự thi và ban tổ chức dễ dàng quản lý, tải xuống bài dự thi một cách tiện lợi.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

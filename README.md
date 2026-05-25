@@ -1,42 +1,20 @@
-# Hệ thống nộp bài thi
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-Frontend: Vite + React. Backend: Vercel Serverless Functions trong `api/`. Storage: Neon (Postgres serverless).
+# Run and deploy your AI Studio app
 
-## Deploy lên Vercel
+This contains everything you need to run your app locally.
 
-1. Push code lên GitHub (đã có).
-2. Vào https://vercel.com → **Add New… → Project** → import repo này.
-3. Trong project, vào **Storage → Create Database → Neon** (Postgres). Chọn region gần (Singapore), plan **Free**, tắt **Auth**. Sau khi tạo, Vercel tự inject `DATABASE_URL` vào project.
-4. **Deploy**. Lần đầu DB còn trống — app sẽ tự tạo bảng `kv`, seed `default-contest` và `adminPasscode = admin123` ở request đầu.
-5. Mở URL → login admin bằng `admin123` → **đổi mật khẩu ngay** trong Manager Dashboard.
+View your app in AI Studio: https://ai.studio/apps/26b4112c-4ee0-4257-86e3-68ef638b774d
 
-## Phát triển local
+## Run Locally
 
-```bash
-npm install
-npm run dev          # chỉ chạy frontend (Vite), /api/* sẽ 404
-```
+**Prerequisites:**  Node.js
 
-Để chạy full-stack local (gồm cả `api/*`):
 
-```bash
-npm i -g vercel
-vercel link          # liên kết với project Vercel
-vercel env pull      # tải DATABASE_URL xuống .env.local
-vercel dev           # chạy frontend + serverless functions cùng lúc
-```
-
-## Cấu trúc
-
-- `src/` — React app
-- `api/` — Vercel serverless functions
-  - `_lib/store.ts` — Neon Postgres helpers (table `kv` với key/value JSONB)
-  - `_lib/types.ts` — types dùng chung
-  - `reports/`, `contests/`, `admin/`, `download/`
-- `vite.config.ts` — config Vite (frontend)
-
-## Lưu ý
-
-- **Giới hạn upload**: serverless function trên Hobby plan tối đa ~4MB body. File lớn hơn sẽ fail. Nếu cần upload to hơn, chuyển sang **Vercel Blob**.
-- **Reset toàn bộ data**: vào Neon dashboard → SQL Editor → `DELETE FROM kv;` (hoặc xoá từng key).
-- Mật mã admin mặc định: `admin123` (sửa được trong UI, lưu vào DB).
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
