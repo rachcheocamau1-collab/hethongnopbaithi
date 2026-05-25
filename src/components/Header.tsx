@@ -18,7 +18,7 @@ export default function Header({ currentRole, setCurrentRole, reportCount }: Hea
         </div>
         <div>
           <h1 className="font-display font-bold text-xl md:text-2xl text-[#0b3c29] tracking-tight flex items-center gap-2">
-            Hệ Thống Nộp Bài Dự Thi
+            Hệ Thống Nộp Bài 
           </h1>
           <p className="text-xs text-slate-500 font-medium font-sans">Thu Thập, Tiếp Nhận & Quản Lý Bài Thi Trực Tuyến</p>
         </div>
